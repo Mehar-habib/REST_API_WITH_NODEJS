@@ -7,5 +7,8 @@ class CustomerErrorHandler extends Error {
   static alreadyExist(message) {
     return new CustomerErrorHandler(409, message);
   }
+  static wrongCredentials(message = "Username or Password wrong!") {
+    return new CustomerErrorHandler(401, message);
+  }
 }
 export default CustomerErrorHandler;
