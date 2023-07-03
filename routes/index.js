@@ -2,6 +2,7 @@ import express from "express";
 import {
   loginController,
   logoutController,
+  productController,
   refreshTokenController,
   registerController,
   userController,
@@ -14,5 +15,6 @@ router.post("/login", loginController.login);
 router.get("/me", auth, userController.me);
 router.post("/refresh", refreshTokenController.refresh);
 router.post("/logout", auth, logoutController.logout);
+router.post("/products", productController.store);
 
 export default router;

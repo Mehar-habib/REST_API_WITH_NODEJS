@@ -16,5 +16,8 @@ class CustomerErrorHandler extends Error {
   static notFound(message = "404 Not Found") {
     return new CustomerErrorHandler(404, message);
   }
+  static uploadingFileError(message = "file upload error") {
+    return new CustomerErrorHandler(500, message);
+  }
 }
 export default CustomerErrorHandler;
