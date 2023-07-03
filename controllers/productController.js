@@ -101,5 +101,21 @@ const productController = {
       res.status(200).json(document);
     });
   },
+
+  // todo ==> delete Product
+  async destroy(req, res, next) {
+    const document = await Product.findOneAndRemove({ _id: req.params.id });
+    if (!document) {
+      return next(new Error("Nothing to delete!"));
+    }
+    // ! Delete image in database
+    const imagePath = document._doc.image;
+    fs.unlink(`${appRoot}/${imagePath}`, (err) => {
+      if (err) {
+        return next(CustomerErrorHandler.uploadingFileError());
+      }
+    });
+    res.status(200).json(document);
+  },
 };
 export default productController;
