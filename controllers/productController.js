@@ -117,5 +117,18 @@ const productController = {
     });
     res.status(200).json(document);
   },
+
+  //   ! Get all Products
+  async index(req, res, next) {
+    let document;
+    try {
+      document = await Product.find()
+        .select("-updatedAt -__v")
+        .sort({ _id: -1 });
+    } catch (error) {
+      return next(error);
+    }
+    res.json(document);
+  },
 };
 export default productController;

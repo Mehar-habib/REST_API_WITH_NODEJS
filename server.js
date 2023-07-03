@@ -21,6 +21,7 @@ global.appRoot = path.resolve(__dirname);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use("/api", router);
+app.use("/uploads", express.static("uploads")); //server the static file/images 1 uploads is url 2 is folder
 
 app.use(errorHandler);
 app.listen(APP_PORT, () => console.log(`Listening on Port ${APP_PORT}.`));
