@@ -130,5 +130,18 @@ const productController = {
     }
     res.json(document);
   },
+
+  //   ! get Single Product
+  async show(req, res, next) {
+    let document;
+    try {
+      document = await Product.findOne({ _id: req.params.id }).select(
+        "-updatedAt -__v"
+      );
+    } catch (error) {
+      return next(error);
+    }
+    res.json(document);
+  },
 };
 export default productController;

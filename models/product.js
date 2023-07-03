@@ -17,7 +17,7 @@ const productSchema = new Schema(
       },
     },
   },
-  { timestamps: true, toJSON: { getters: true } } //tell the mongoose to use getter fun
+  { timestamps: true, toJSON: { getters: true }, id: false } //tell the mongoose to use getter fun and does not return the 'id'
 );
 
 export default mongoose.model("Product", productSchema, "products");
