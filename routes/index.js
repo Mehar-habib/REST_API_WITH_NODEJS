@@ -18,6 +18,6 @@ router.post("/refresh", refreshTokenController.refresh);
 router.post("/logout", auth, logoutController.logout);
 
 router.post("/products", [auth, admin], productController.store);
-// router.put("/products")
+router.put("/products/:id", [auth, admin], productController.update);
 
 export default router;

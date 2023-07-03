@@ -4,6 +4,7 @@ import CustomerErrorHandler from "../services/CustomErrorHandler";
 import Joi from "joi";
 import fs from "fs";
 import { Product } from "../models";
+import ProductSchema from "../validators/productValidator";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "uploads/"),
@@ -31,11 +32,6 @@ const productController = {
       //  console.log(req.file)
       const filePath = req.file.path;
       // ! validation
-      const ProductSchema = Joi.object({
-        name: Joi.string().required(),
-        price: Joi.number().required(),
-        size: Joi.string().required(),
-      });
       const { error } = ProductSchema.validate(req.body);
       if (error) {
         // delete the uploaded file/image
@@ -60,6 +56,49 @@ const productController = {
         return next(error);
       }
       res.status(200).json({ document });
+    });
+  },
+
+  //   ! update section
+  async update(req, res, next) {
+    handleMultiPartData(req, res, async (err) => {
+      if (err) {
+        return next(CustomerErrorHandler.uploadingFileError(err.message));
+      }
+      let filePath;
+      if (req.file) {
+        filePath = req.file.path;
+      }
+      // ! validation
+      const { error } = ProductSchema.validate(req.body);
+      if (error) {
+        // !deleting file error
+        if (req.file) {
+          fs.unlink(`${appRoot}/${filePath}`, (err) => {
+            if (err) {
+              return next(CustomerErrorHandler.uploadingFileError(err.message));
+            }
+          });
+        }
+        return next(error);
+      }
+      const { name, price, size } = req.body;
+      let document;
+      try {
+        document = await Product.findOneAndUpdate(
+          { _id: req.params.id }, //! Dynamic get data
+          {
+            name,
+            price,
+            size,
+            ...(req.file && { image: filePath }), //! if file path included
+          },
+          { new: true }
+        ); //! get update/fresh data
+      } catch (error) {
+        return next(error);
+      }
+      res.status(200).json(document);
     });
   },
 };
