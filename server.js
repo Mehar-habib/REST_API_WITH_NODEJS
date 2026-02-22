@@ -25,4 +25,4 @@ app.use("/uploads", express.static("uploads")); //server the static file/images 
 
 // custom error handler
 app.use(errorHandler);
-app.listen(APP_PORT, () => console.log(`Listening on Port ${APP_PORT} or bay default.`));
+app.listen(APP_PORT, () => console.log(`Listening on Port ${APP_PORT} or by default.`));
