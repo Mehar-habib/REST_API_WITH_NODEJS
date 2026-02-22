@@ -23,5 +23,6 @@ app.use(express.json());
 app.use("/api", router);
 app.use("/uploads", express.static("uploads")); //server the static file/images 1 uploads is url 2 is folder
 
+// custom error handler
 app.use(errorHandler);
-app.listen(APP_PORT, () => console.log(`Listening on Port ${APP_PORT}.`));
+app.listen(APP_PORT, () => console.log(`Listening on Port ${APP_PORT} or bay default.`));
